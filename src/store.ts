@@ -8,10 +8,12 @@ Vue.use(Buefy)
 
 export default new Vuex.Store({
   state: {
-
+    phoneNumber: '',
   },
   mutations: {
-
+    SET_PHONE_NO(state, pN){
+      state.phoneNumber = pN
+    }
   },
   actions: {
 

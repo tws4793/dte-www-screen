@@ -1,11 +1,20 @@
-<template>
-  <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
-    <router-view/>
-  </div>
+<template lang="pug">
+  #app
+    nav.navbar.is-success(role='navigation', aria-label='main navigation')
+      .navbar-brand
+        router-link.navbar-item(to='/')
+          img(src='https://bulma.io/images/bulma-logo.png', alt='Bulma: a modern CSS framework based on Flexbox', width='112', height='28')
+        a.navbar-burger(role='button', aria-label='menu', aria-expanded='false')
+          span(aria-hidden='true')
+          span(aria-hidden='true')
+          span(aria-hidden='true')
+      .navbar-menu
+        .navbar-start
+          router-link.navbar-item(active-class='is-active', to='/') Home
+          router-link.navbar-item(active-class='is-active', to='/about') About
+          router-link.navbar-item(active-class='is-active', to='/vue') Vue
+    section.section
+      router-view
 </template>
 
 <style lang="scss">
