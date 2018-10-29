@@ -8,11 +8,19 @@ Vue.use(Buefy)
 
 export default new Vuex.Store({
   state: {
-    phoneNumber: '',
+    phoneNo: '',
+    beacons: ['iot16', 'iot31'],
+    lastSeen: {
+      zone: 1,
+      time: 2110
+    }
   },
   mutations: {
-    SET_PHONE_NO(state, pN){
-      state.phoneNumber = pN
+    SET_PHONE_NO(state, phoneNo){
+      state.phoneNo = phoneNo
+    },
+    SET_BEACON_DETAILS(state, payload){
+      console.log(payload)
     }
   },
   actions: {

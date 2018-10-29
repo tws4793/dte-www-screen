@@ -1,20 +1,23 @@
 <template lang="pug">
-  #app
-    nav.navbar.is-success(role='navigation', aria-label='main navigation')
-      .navbar-brand
-        router-link.navbar-item(to='/')
-          img(src='https://bulma.io/images/bulma-logo.png', alt='Bulma: a modern CSS framework based on Flexbox', width='112', height='28')
-        a.navbar-burger(role='button', aria-label='menu', aria-expanded='false')
-          span(aria-hidden='true')
-          span(aria-hidden='true')
-          span(aria-hidden='true')
-      .navbar-menu
-        .navbar-start
-          router-link.navbar-item(active-class='is-active', to='/') Home
-          router-link.navbar-item(active-class='is-active', to='/about') About
-          router-link.navbar-item(active-class='is-active', to='/vue') Vue
-    section.section
-      router-view
+  section#app
+    .columns.is-gapless
+      .column
+      .column.is-two-thirds
+        section.hero.is-light.is-fullheight
+          .hero-head
+            .tabs.is-large.is-centered
+              ul
+                router-link(tag='li', exact-active-class='is-active', to='/')
+                  a Home
+                router-link(tag='li', exact-active-class='is-active', to='/register')
+                  a Register
+                router-link(tag='li', exact-active-class='is-active', to='/about')
+                  a About
+            h1.title Locate My Child
+          .hero-body
+            .container
+              router-view
+      .column
 </template>
 
 <style lang="scss">
@@ -23,7 +26,11 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
+  background-color: #76b8e8;
+  height: -webkit-fill-available;
+}
+.tabs {
+  background-color: #fbc968 !important;
 }
 #nav {
   padding: 30px;

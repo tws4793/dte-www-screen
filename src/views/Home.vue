@@ -1,9 +1,5 @@
 <template lang="pug">
-  .container
-    .section
-      h1.title Locate My Child
-    .section
-      Prompt
+  Prompt
 </template>
 
 <script lang="ts">
