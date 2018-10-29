@@ -30,6 +30,11 @@ export default new Router({
       path: '/locator',
       name: 'locator',
       component: () => import('./views/Locator.vue')
+    },
+    {
+      path: '/register',
+      name: 'register',
+      component: () => import('./views/Register.vue')
     }
   ]
 })
