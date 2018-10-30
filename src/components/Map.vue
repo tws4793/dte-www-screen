@@ -6,7 +6,7 @@
       h2 Your child was last seen at {{ lastSeen.time }}
       #map
         img.img(src='../assets/smu-labs-03.jpg')
-        .overlay(:style='')
+        .overlay(:style='overlayArea')
       router-link.button.is-success.is-large(to='/') Back
     .column
 </template>
@@ -22,10 +22,10 @@ export default class Map extends Vue {
   get lastSeen() {
     return this.$store.state.lastSeen
   }
-  /* overlayArea(zone) {
-    coordinates = this.zones[zone]
+  get overlayArea() {
+    const coordinates = this.zones[this.lastSeen.zone]
     return 'transform: translate(' + coordinates[0] + '%,' + coordinates[1] + '%)'
-  } */
+  }
 
   zones = {
     1: [88,-203.4],
