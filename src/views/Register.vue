@@ -13,7 +13,9 @@
             input.input.is-large(type='text',placeholder='Enter Phone Number',v-model='form.phoneNo')
       .field
         .control
-            button.button.is-success.is-large.is-fullwidth(@click='show-modal') Bind
+            button.button.is-success.is-large.is-fullwidth(@click='writeTag', :disabled='btndisabled') Bind
+      .field
+        label(v-show='prompt') Number successfully registered
     .column
     .modal(:class='isactive')
       .modal-content
@@ -22,7 +24,8 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Provide, Vue } from "vue-property-decorator";
+import { Component, Prop, Provide, Vue } from "vue-property-decorator"
+import axios from 'axios'
 
 @Component
 export default class Register extends Vue {
@@ -35,13 +38,28 @@ export default class Register extends Vue {
   isactive() {
     return this.prompt ? 'is-active' : ''
   }
-  get beacons() {
-    return this.$store.state.beacons
-  }
-
   showModal() {
     console.log(this.prompt)
     return this.prompt ? !this.prompt : this.prompt
+  }
+  writeTag() {
+    axios
+      .get(this.$store.state.webApiUrl + '/stone',{
+        params: {
+          number: this.form.phoneNo,
+          stoneId: this.form.beacon
+        }
+      }).then(res => {
+        console.log(res)
+        this.showModal()
+      })
+  }
+
+  get beacons() {
+    return this.$store.state.beacons
+  }
+  get btndisabled() {
+    return this.form.phoneNo.length == 0 || this.form.phoneNo.length > 8
   }
 
   /* set trackerID(value) {

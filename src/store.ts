@@ -13,7 +13,9 @@ export default new Vuex.Store({
     lastSeen: {
       zone: 1,
       time: 2110
-    }
+    },
+    // CHANGE THIS VALUE TO THE URL WHERE THE API IS BEING CALLED
+    webApiUrl: 'lostwebsvc:8880'
   },
   mutations: {
     SET_PHONE_NO(state, phoneNo){
