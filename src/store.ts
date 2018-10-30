@@ -2,14 +2,9 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import Buefy from 'buefy'
 import 'buefy/dist/buefy.css';
-import feathersVuex from 'feathers-vuex'
-import feathersClient from './feathers-client.js'
-
-const { service, FeathersVuex } = feathersVuex(feathersClient, { idField: '_id' })
 
 Vue.use(Vuex)
 Vue.use(Buefy)
-Vue.use(FeathersVuex)
 
 export default new Vuex.Store({
   state: {
@@ -31,8 +26,4 @@ export default new Vuex.Store({
   actions: {
 
   },
-  plugins: [
-    service('pi'),
-    service('stone')
-  ]
 })
