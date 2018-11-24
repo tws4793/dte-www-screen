@@ -2,8 +2,8 @@
   .columns
     .column
     .column.is-two-thirds
-      h2 Phone Number: {{ phoneNo }}
-      h2 Your child was last seen at {{ lastSeen.time }}
+      h2 Phone Number: #[strong {{ lastSeen.phoneNo }}]
+      h2 Your child was last seen at #[strong {{ lastSeen.time }}]
       #map
         img.img(src='../assets/smu-labs-03.jpg')
         .overlay(:style='overlayArea')
@@ -12,25 +12,13 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Provide, Vue } from "vue-property-decorator";
-import axios from "axios";
+import { Component, Prop, Provide, Vue } from 'vue-property-decorator'
+import axios from 'axios'
 
 @Component
 export default class Map extends Vue {
   mounted() {
-    axios
-      .get(this.$store.state.webApiUrl + '/tracker', {
-        params: {
-          number: this.$store.state.phoneNo
-        }
-      })
-      .then(res => {
-        console.log(res);
-      });
-  }
-
-  get phoneNo() {
-    return this.$store.state.phoneNo
+    const qInterval = setInterval(this.$store.dispatch('queryTracker', this.lastSeen.phoneNo), 5000)
   }
   get lastSeen() {
     return this.$store.state.lastSeen
@@ -39,7 +27,7 @@ export default class Map extends Vue {
     return this.zones[this.lastSeen.zone]
   }
   get overlayArea() {
-    const coordinates = this.mapCoordinates
+    const coordinates = this.zones[this.lastSeen.zone]
     return (
       "transform: translate(" + coordinates[0] + "%," + coordinates[1] + "%)"
     );

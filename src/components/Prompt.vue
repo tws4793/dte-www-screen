@@ -3,11 +3,13 @@
     .column
     .column.is-half
       .field
+        label.label Enter Phone Number
         .control
           input.input.is-large.is-hovered(type='tel',placeholder='Enter Phone Number',v-model='phoneNo')
+        p.help This phone number will be used to locate your child should he/she go missing.
       .field
         .control
-          router-link.button.is-success.is-fullwidth.is-large(tag='button', to='/locator', :disabled='btndisabled') Search
+          button.button.is-success.is-fullwidth.is-large(@click='search', :disabled='btndisabled') Search
     .column
 </template>
 
@@ -16,11 +18,11 @@ import { Component, Prop, Provide, Vue } from "vue-property-decorator";
 
 @Component
 export default class Prompt extends Vue {
-  get phoneNo() {
-    return this.$store.state.phoneNo
-  }
-  set phoneNo(value) {
-    this.$store.commit("SET_PHONE_NO", value)
+  phoneNo = ''
+
+  search() {
+    this.$store.dispatch('queryTracker', this.phoneNo)
+    this.$router.push('/locator')
   }
   get btndisabled() {
     return this.phoneNo.length == 0 || this.phoneNo.length > 8
