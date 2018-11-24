@@ -5,7 +5,7 @@
       h2 Phone Number: #[strong {{ lastSeen.phoneNo }}]
       h2 Your child was last seen at #[strong {{ lastSeen.time }}]
       #map
-        img.img(src='../assets/smu-labs-03.jpg')
+        img.img(src='../assets/smu-labs-01.jpg')
         .overlay(:style='overlayArea')
       router-link.button.is-success.is-large(to='/') Back
     .column
