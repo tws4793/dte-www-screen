@@ -1,30 +1,37 @@
 <template lang="pug">
-  .columns
-    .column
-    .column.is-half
-      .field
-        label.label Tracker ID
-        .select.is-fullwidth.is-large
-          select(v-model='form.beacon')
-            option(v-for='b in beacons') {{ b }}
-      .field
-        label.label Phone Number
-        .control
-            input.input.is-large(type='text',placeholder='Enter Phone Number',v-model='form.phoneNo')
-      .field
-        .control
+  .content
+    .columns
+      .column
+      .column.is-half
+        .field
+          label.label Tracker ID
+          .select.is-fullwidth.is-large
+            select(v-model='form.beacon')
+              option(v-for='b in beacons') {{ b }}
+        .field
+          label.label Phone Number
+          .control
+              input.input.is-large(type='text',placeholder='Enter Phone Number',v-model='form.phoneNo')
+          p.help This phone number will be used to locate your child should he/she go missing.
+        .field
+          .control
             button.button.is-success.is-large.is-fullwidth(@click='writeTag', :disabled='btndisabled') Bind
-      .field
-        label(v-show='prompt') Number successfully registered
-    .column
+      .column
     .modal(:class='isactive')
+      .modal-background
       .modal-content
-        p Successfully registered
-      button.modal-close.is-large(aria-label='close', @click='show-modal')
+        .message(:class='status.class')
+          .message-header
+            span {{ status.text }}
+            button.delete(aria-label='delete', @click='closeModal')
+          .message-body
+            p {{ status.message }}
+            button.button.is-success.is-large.is-fullwidth(@click='closeModal') Close
+      button.modal-close.is-large(aria-label='close', @click='closeModal')
 </template>
 
 <script lang="ts">
-import { Component, Prop, Provide, Vue } from "vue-property-decorator"
+import { Component, Prop, Provide, Vue } from 'vue-property-decorator'
 import axios from 'axios'
 
 @Component
@@ -34,36 +41,50 @@ export default class Register extends Vue {
     phoneNo: ''
   }
   prompt = false
+  writeStatus = false
 
-  isactive() {
-    return this.prompt ? 'is-active' : ''
-  }
-  showModal() {
-    console.log(this.prompt)
-    return this.prompt ? !this.prompt : this.prompt
-  }
   writeTag() {
     axios
-      .get(this.$store.state.webApiUrl + '/stone',{
+      .get(this.$store.state.webApiUrl + '/stone', {
         params: {
           number: this.form.phoneNo,
           stoneId: this.form.beacon
         }
       }).then(res => {
-        console.log(res)
-        this.showModal()
+        this.writeStatus = true
+      }).catch(err => {
+        this.writeStatus = false
+      }).finally(() => {
+        this.prompt = !this.prompt
       })
+  }
+  closeModal() {
+    this.prompt = false
+
+    if (this.writeStatus) {
+      this.$router.push('/')
+    }
   }
 
   get beacons() {
-    return this.$store.state.beacons
+    return this.$store.state.beacons;
   }
   get btndisabled() {
     return this.form.phoneNo.length == 0 || this.form.phoneNo.length > 8
   }
-
-  /* set trackerID(value) {
-    this.$store.commit("SET_TRACKER_ID", value);
-  } */
+  get status() {
+    return this.writeStatus ? {
+      class: 'is-success',
+      text: 'Successful',
+      message: this.form.phoneNo + ' successfully tagged to ' + this.form.beacon + '!'
+    } : {
+      class: 'is-danger',
+      text: 'Failed',
+      message: 'Tagging of ' + this.form.phoneNo + ' to ' + this.form.beacon + ' failed! Please try again!'
+    }
+  }
+  get isactive() {
+    return this.prompt ? 'is-active' : ''
+  }
 }
 </script>
