@@ -21,8 +21,7 @@ export default class Prompt extends Vue {
   phoneNo = ''
 
   search() {
-    this.$store.dispatch('queryTracker', this.phoneNo)
-    this.$router.push('/locator')
+    this.$router.push({name: 'locator', params: { phoneNo: this.phoneNo }})
   }
   get btndisabled() {
     return this.phoneNo.length == 0 || this.phoneNo.length > 8

@@ -1,6 +1,7 @@
 <template lang="pug">
-  .columns
-    .column
+  .content
+    .columns
+      .column
       .column.is-four-fifths
         .tile.is-ancestor
           .tile.is-4.is-vertical.is-parent
@@ -17,16 +18,23 @@
           .tile.is-parent
             .tile.is-child.box
               p.heading Your child was last seen here
-      #map
-        img.img(src='../assets/smu-labs-01.jpg')
-        .overlay(:style='overlayArea')
-    .column
+              #map
+                img.img(src='../assets/smu-labs-01.jpg')
+                .overlay(:style='overlayArea')
+      .column
+    Message(:prompt='prompt', :status='errMsg', @closeModal='returnToHome')
 </template>
 
 <script lang="ts">
-import { Component, Prop, Provide, Vue } from "vue-property-decorator";
+import { Component, Prop, Provide, Vue } from 'vue-property-decorator'
+import Message from '@/components/Message.vue'
+import axios from 'axios'
 
-@Component
+@Component({
+  components: {
+    Message
+  }
+})
 export default class Locator extends Vue {
   zones = {
     1: {right: 0, top: 0},
@@ -34,12 +42,48 @@ export default class Locator extends Vue {
     3: {left: 0, bottom: '7px'},
     4: {left: 0, top: 0},
   }
+  lastSeen = {
+    phoneNo: '91234567',
+    zone: 1,
+    time: '2018-11-28 07:57:28.0'
+  }
+  prompt = false
 
   mounted() {
-    const qInterval = setInterval(this.$store.dispatch('queryTracker', this.lastSeen.phoneNo), 5000)
+    this.lastSeen.phoneNo = this.$route.params.phoneNo
+    setInterval(this.pollLocation, 5000)
   }
-  get lastSeen() {
-    return this.$store.state.lastSeen
+  pollLocation() {
+    axios
+      .get(this.$store.state.webApiUrl + '/tracker', {
+        params: {
+          number: this.lastSeen.phoneNo
+        }
+      }).then(res => {
+        this.prompt = false
+        this.lastSeen = {
+          phoneNo: this.lastSeen.phoneNo,
+          zone: res.data.id.charAt(1),
+          time: res.data.lastSeen
+        }
+      }).catch(err => {
+        this.prompt = true
+        this.lastSeen = {
+          phoneNo: this.lastSeen.phoneNo,
+          zone: 2,
+          time: '2018-11-28 07:57:28.0'
+        }
+      })
+  }
+  returnToHome() {
+    this.$router.push('/')
+  }
+  get errMsg() {
+    return {
+      class: 'is-danger',
+      text: 'Not Found',
+      message: 'Phone number ' + this.lastSeen.phoneNo + ' was not found! Please try again!'
+    }
   }
   get overlayArea() {
     return this.zones[this.lastSeen.zone]

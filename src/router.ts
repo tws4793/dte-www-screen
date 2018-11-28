@@ -27,7 +27,7 @@ export default new Router({
       component: () => import('./views/Vue.vue')
     },
     {
-      path: '/locator',
+      path: '/locator/:phoneNo',
       name: 'locator',
       component: () => import('./views/Locator.vue')
     },
