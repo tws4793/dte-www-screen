@@ -17,24 +17,19 @@
           .control
             button.button.is-success.is-large.is-fullwidth(@click='writeTag', :disabled='btndisabled') Bind
       .column
-    .modal(:class='isactive')
-      .modal-background
-      .modal-content
-        .message(:class='status.class')
-          .message-header
-            span {{ status.text }}
-            button.delete(aria-label='delete', @click='closeModal')
-          .message-body
-            p {{ status.message }}
-            button.button.is-success.is-large.is-fullwidth(@click='closeModal') Close
-      button.modal-close.is-large(aria-label='close', @click='closeModal')
+    Message(:prompt='prompt', :status='status', @closeModal='closeModal')
 </template>
 
 <script lang="ts">
 import { Component, Prop, Provide, Vue } from 'vue-property-decorator'
+import Message from '@/components/Message.vue'
 import axios from 'axios'
 
-@Component
+@Component({
+  components: {
+    Message
+  }
+})
 export default class Register extends Vue {
   form = {
     beacon: this.beacons[0],
@@ -82,9 +77,6 @@ export default class Register extends Vue {
       text: 'Failed',
       message: 'Tagging of ' + this.form.phoneNo + ' to ' + this.form.beacon + ' failed! Please try again!'
     }
-  }
-  get isactive() {
-    return this.prompt ? 'is-active' : ''
   }
 }
 </script>
