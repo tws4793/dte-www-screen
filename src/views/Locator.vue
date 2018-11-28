@@ -1,13 +1,25 @@
 <template lang="pug">
   .columns
     .column
-    .column.is-two-thirds
-      h2 Phone Number: #[strong {{ lastSeen.phoneNo }}]
-      h2 Your child was last seen at #[strong {{ lastSeen.time }}]
+      .column.is-four-fifths
+        .tile.is-ancestor
+          .tile.is-4.is-vertical.is-parent
+            .tile.is-child
+              router-link.button.is-success.is-large.is-fullwidth(to='/') Back
+            .tile.is-child.desc
+              p.heading Phone Number
+              p.title #[strong {{ lastSeen.phoneNo }}]
+            .tile-is-child.desc
+              p.heading Last updated
+              p.title #[strong {{ lastSeen.time }}]
+            .tile.is-child.is-hidden-mobile
+            .tile-is-child.is-hidden-mobile
+          .tile.is-parent
+            .tile.is-child.box
+              p.heading Your child was last seen here
       #map
         img.img(src='../assets/smu-labs-01.jpg')
         .overlay(:style='overlayArea')
-      router-link.button.is-success.is-large(to='/') Back
     .column
 </template>
 
@@ -38,6 +50,9 @@ export default class Locator extends Vue {
 <style lang='scss'>
 #map {
   position: relative;
+}
+.desc p {
+  color:black !important;
 }
 .overlay {
   position: absolute;

@@ -1,23 +1,19 @@
 <template lang="pug">
   section#app
-    .columns.is-gapless
-      .column
-      .column.is-two-thirds
-        section.hero.is-light.is-fullheight
-          .hero-head
-            .tabs.is-large.is-centered
-              ul
-                router-link(tag='li', exact-active-class='is-active', to='/')
-                  a Home
-                router-link(tag='li', exact-active-class='is-active', to='/register')
-                  a Register
-                router-link(tag='li', exact-active-class='is-active', to='/about')
-                  a About
-            h1.title Locate My Child
-          .hero-body
-            .container
-              router-view
-      .column
+    section.hero.is-info.is-fullheight
+      .hero-head.is-centered
+        h1.title Locate My Child
+        .tabs.is-large.is-centered
+          ul
+            router-link(tag='li', exact-active-class='is-active', to='/')
+              a Home
+            router-link(tag='li', exact-active-class='is-active', to='/register')
+              a Register
+            router-link(tag='li', exact-active-class='is-active', to='/about')
+              a About
+      .hero-body
+        .container
+          router-view
 </template>
 
 <style lang="scss">
@@ -26,11 +22,19 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  background-color: #76b8e8;
+  // background-color: #76b8e8;
   height: -webkit-fill-available;
 }
 .tabs {
-  background-color: #fbc968 !important;
+  // background-color: #fbc968 !important;
+}
+.hero-head h1.title {
+  margin-top: 1.5rem;
+}
+.hero-body {
+  color: black;
+  background-color: white;
+  align-items: flex-start !important;
 }
 #nav {
   padding: 30px;

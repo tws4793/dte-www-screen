@@ -1,7 +1,7 @@
 <template lang="pug">
   .columns
     .column
-    .column.is-half
+    .column.is-two-fifths
       .field
         label.label Enter Phone Number
         .control

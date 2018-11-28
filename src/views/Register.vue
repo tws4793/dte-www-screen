@@ -2,7 +2,7 @@
   .content
     .columns
       .column
-      .column.is-half
+      .column.is-two-fifths
         .field
           label.label Tracker ID
           .select.is-fullwidth.is-large
