@@ -60,11 +60,19 @@ export default class Locator extends Vue {
           number: this.lastSeen.phoneNo
         }
       }).then(res => {
-        this.prompt = false
-        this.lastSeen = {
-          phoneNo: this.lastSeen.phoneNo,
-          zone: res.data.id.charAt(1),
-          time: res.data.lastSeen
+        const zone = res.data.id.charAt(1)
+        const time = res.data.lastSeen
+        const notFound = (zone.length == 0 && time.length == 0)
+
+        if(notFound) {
+          this.prompt = true
+        } else {
+          this.prompt = false
+          this.lastSeen = {
+            phoneNo: this.lastSeen.phoneNo,
+            zone: zone,
+            time: time
+          }
         }
       }).catch(err => {
         this.prompt = true
