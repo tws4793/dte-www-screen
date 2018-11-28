@@ -22,11 +22,7 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  // background-color: #76b8e8;
   height: -webkit-fill-available;
-}
-.tabs {
-  // background-color: #fbc968 !important;
 }
 .hero-head h1.title {
   margin-top: 1.5rem;

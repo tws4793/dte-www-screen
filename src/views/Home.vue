@@ -1,15 +1,18 @@
 <template lang="pug">
-  Prompt
+  .content
+    .columns
+      .column
+      .column.is-two-fifths
+        Prompt
+      .column
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
-import HelloWorld from '@/components/HelloWorld.vue'; // @ is an alias to /src
+import { Component, Vue } from 'vue-property-decorator'
 import Prompt from '@/components/Prompt.vue'
 
 @Component({
   components: {
-    HelloWorld,
     Prompt
   },
 })

@@ -1,16 +1,13 @@
 <template lang="pug">
-  .columns
-    .column
-    .column.is-two-fifths
-      .field
-        label.label Enter Phone Number
-        .control
-          input.input.is-large.is-hovered(type='tel',placeholder='Enter Phone Number',v-model='phoneNo')
-        p.help This phone number will be used to locate your child should he/she go missing.
-      .field
-        .control
-          button.button.is-success.is-fullwidth.is-large(@click='search', :disabled='btndisabled') Search
-    .column
+  .content
+    .field
+      label.label Enter Phone Number
+      .control
+        input.input.is-large.is-hovered(type='tel',placeholder='Enter Phone Number',v-model='phoneNo')
+      p.help This phone number will be used to locate your child should he/she go missing.
+    .field
+      .control
+        button.button.is-success.is-fullwidth.is-large(@click='search', @keyup.enter='search', :disabled='btndisabled') Search
 </template>
 
 <script lang="ts">
