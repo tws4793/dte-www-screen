@@ -12,7 +12,7 @@
               p.title #[strong {{ lastSeen.phoneNo }}]
             .tile-is-child.desc
               p.heading Last updated
-              p.title #[strong {{ lastSeen.time }}]
+              p.title #[strong {{ dateFormat(lastSeen.time) }}]
             .tile.is-child.is-hidden-mobile
             .tile-is-child.is-hidden-mobile
           .tile.is-parent
@@ -29,6 +29,8 @@
 import { Component, Prop, Provide, Vue } from 'vue-property-decorator'
 import Message from '@/components/Message.vue'
 import axios from 'axios'
+import { parseFromTimeZone } from 'date-fns-timezone'
+import format from 'date-fns/format'
 
 @Component({
   components: {
@@ -45,7 +47,7 @@ export default class Locator extends Vue {
   lastSeen = {
     phoneNo: '91234567',
     zone: 1,
-    time: '2018-11-28 07:57:28.0'
+    time: this.dateParse(Date())
   }
   prompt = false
 
@@ -71,20 +73,21 @@ export default class Locator extends Vue {
           this.lastSeen = {
             phoneNo: this.lastSeen.phoneNo,
             zone: zone,
-            time: time
+            time: this.dateParse(time)
           }
         }
       }).catch(err => {
         this.prompt = true
-        this.lastSeen = {
-          phoneNo: this.lastSeen.phoneNo,
-          zone: 2,
-          time: '2018-11-28 07:57:28.0'
-        }
       })
   }
   returnToHome() {
     this.$router.push('/')
+  }
+  dateParse(date) {
+    return parseFromTimeZone(date, { timeZone: 'Asia/Singapore' })
+  }
+  dateFormat(date) {
+    return format(date, 'ddd, D MMM YYYY \n hh:mm A')
   }
   get errMsg() {
     return {
